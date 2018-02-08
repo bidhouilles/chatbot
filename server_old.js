@@ -64,9 +64,6 @@ io.on('connection', function (socket) {
         typingUsers.splice(typingUserIndex, 1);
       }
     }
-    //delete historic
-    messages.splice(0,messages.length);
-    user.splice(0,user.length);
   });
 
   /**
@@ -74,19 +71,15 @@ io.on('connection', function (socket) {
    */
   socket.on('user-login', function (user, callback) {
     // Vérification que l'utilisateur n'existe pas
-    console.log("user-login:");
-    console.log(user);
     var userIndex = -1;
     for (i = 0; i < users.length; i++) {
       if (users[i].username === user.username) {
         userIndex = i;
-        console.log(user.username);
       }
     }
     if (user !== undefined && userIndex === -1) { // S'il est bien nouveau
       // Sauvegarde de l'utilisateur et ajout à la liste des connectés
       loggedUser = user;
-      console.log("user"+loggedUser);
       users.push(loggedUser);
       // Envoi et sauvegarde des messages de service
       var userServiceMessage = {
@@ -129,22 +122,8 @@ io.on('connection', function (socket) {
 	  })
 	  // on receive data from chatscriptSocket
 	  chatscriptSocket.on('data', function(data) {
-	    console.log("CS answer :"+ data.toString());
-//	    io.emit('send_msg', data.toString()); // FROM SERVER
-
-            //envoi la reponse
-            // On ajoute le username au message et on émet l'événement
-    message.username = "HARRY";
-    message.text = data.toString();
-    io.emit('chat-message', message);
-    // Sauvegarde du message
-    messages.push(message);
-    if (messages.length > 150) {
-      messages.splice(0, 1);
-    }
-
-              
-
+	 	console.log(data.toString());
+		io.emit('send_msg', data.toString()); // FROM SERVER
 	  })
 	  // on end from chatscriptSocket
 	  chatscriptSocket.on('end', function() {

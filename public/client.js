@@ -22,6 +22,15 @@ function scrollToBottom() {
  */
 $('#login form').submit(function (e) {
   e.preventDefault();
+  //Bot connexion -> yeah Icheat because it's automatic!!
+  var userHarry = {    username : "HARRY"      };
+  //HARRY
+  socket.emit('user-login',userHarry , function (success) {
+      if (success) {
+      }
+    });
+
+
   var user = {
     username : $('#login input').val().trim()
   };
